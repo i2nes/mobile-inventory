@@ -1,0 +1,17 @@
+# VS Code generated folder
+.vscode/
+
+# Mac OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python compile files
+*.pyc
+
+# Python Requirements Installs
+lib/
