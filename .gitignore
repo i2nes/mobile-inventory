@@ -15,3 +15,6 @@ Thumbs.db
 
 # Python Requirements Installs
 lib/
+
+# Config file
+config.py
