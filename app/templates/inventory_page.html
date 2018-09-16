@@ -42,6 +42,7 @@
                     <th>Manufacturer</th>
                     <th>Model</th>
                     <th>User</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@
                     <td>{{device.manufacturer}}</td>
                     <td>{{device.model}}</td>
                     <td>{% if device.user_key %}{{device.user_key.get().name}}{% endif %}</td>
+                    <td><a class="btn btn-sm btn-primary" href="{{ url_for('web_app.device_edit_page', device_id=device.key.id()) }}" role="button">Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

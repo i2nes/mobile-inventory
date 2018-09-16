@@ -33,3 +33,15 @@ def inventory_page():
         logout_url=LOGOUT_URL,
         nav_link='inventory_page',
         devices=devices_ndb)
+
+
+@app.route('users/<user_id>')
+@login_required
+def user_edit_page(user_id):
+    return 'user edit page'
+
+
+@app.route('devices/<device_id>')
+@login_required
+def device_edit_page(device_id):
+    return 'device edit page'

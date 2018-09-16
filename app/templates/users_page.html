@@ -40,6 +40,7 @@
                     <th>Email</th>
                     <th>Name</th>
                     <th>Authorized</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +49,7 @@
                     <td>{{user.email}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.authorized}}</td>
+                    <td><a class="btn btn-sm btn-primary" href="{{ url_for('web_app.user_edit_page', user_id=user.key.id()) }}" role="button">Edit</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
