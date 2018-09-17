@@ -38,7 +38,8 @@ def inventory_page():
 @app.route('users/<user_id>')
 @login_required
 def user_edit_page(user_id):
-    return 'user edit page'
+    user = User.get_by_id(int(user_id))
+    return user.email
 
 
 @app.route('devices/<device_id>')

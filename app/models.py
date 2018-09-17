@@ -29,10 +29,8 @@ class Device(ndb.Model):
 
     def to_dict(self):
         resp = {
-            'user': self.user_key.get().name if self.user_key is not None else '',
+            'user_id': self.user_key.id() if self.user_key is not None else None,
+            'username': self.user_key.get().name if self.user_key is not None else None,
             'device_id': self.key.id(),
-            'manufacturer': self.manufacturer,
-            'model': self.model,
-            'os': self.os,
         }
         return resp

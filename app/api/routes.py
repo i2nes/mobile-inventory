@@ -20,39 +20,55 @@ def devices_api():
     return jsonify({'Devices': [d.to_dict() for d in devices_ndb] }), 200
 
 
+@app.route('/devices/info', methods=['GET'])
+@api_key_required
+def devices_status_api():
+
+    if 'X-Api-Device-Id' in request.headers.keys():
+        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        if device is not None:
+            return jsonify(device.to_dict())
+        else:
+            return '', 404
+    
+    return '', 400
+
+
 @app.route('/devices/alocate', methods=['POST'])
 @api_key_required
 def devices_alocate_api():
 
-    if 'X-Device-Id' in request.headers.keys() and 'X-User-Id' in request.headers.keys():
-        user = User.get_by_id(int(request.headers['X-User-Id']))
-        device = Device.get_by_id(request.headers['X-Device-Id'])
+    if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
+        user = User.get_by_id(int(request.headers['X-Api-User-Id']))
+        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
         if user is not None:
             if device is None:
-                device = Device(id=request.headers['X-Device-Id'])
+                device = Device(id=request.headers['X-Api-Device-Id'])
             device.user_key = user.key
             device.put()
     else:
         logging.info("Missing parameters")
         logging.info(request.headers.keys())
 
-    return '', 204
+    return jsonify(device.to_dict())
 
 
 @app.route('/devices/free', methods=['POST'])
 @api_key_required
 def devices_free_api():
 
-    if 'X-Device-Id' in request.headers.keys() and 'X-User-Id' in request.headers.keys():
-        user = User.get_by_id(int(request.headers['X-User-Id']))
-        device = Device.get_by_id(request.headers['X-Device-Id'])
+    if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
+        user = User.get_by_id(int(request.headers['X-Api-User-Id']))
+        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
         if user is not None and device is not None:
             device.user_key = None
             device.put()
         else:
             logging.info("Unexpected user or device")
+            logging.info(int(request.headers['X-Api-User-Id']))
+            logging.info(request.headers['X-Api-Device-Id'])
     else:
         logging.info("Missing parameters")
         logging.info(request.headers.keys())
 
-    return '', 204
+    return jsonify(device.to_dict())
