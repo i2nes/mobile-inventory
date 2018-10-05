@@ -22,3 +22,4 @@ handlers:
 # where <wsgi_application> is a WSGI application object.
 - url: .*  # This regex directs all routes to main.app
   script: main.app
+  secure: always
