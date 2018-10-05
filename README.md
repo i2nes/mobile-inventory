@@ -38,7 +38,7 @@ curl -X POST \
   -H 'x-api-key: secret_api_key' \
   -H 'x-api-user-id: 6015428115562496'
 ```
-### API /api/devices/free
+### POST /api/devices/free
 ```
 curl -X POST \
   http://localhost:8080/api/devices/free \
