@@ -1,16 +1,24 @@
 import logging
 from . import app
 from google.appengine.api import users
-from flask import render_template, url_for
+from flask import render_template, url_for, redirect
 from ..utils import login_required
 from config import LOGOUT_URL
 from ..models import User, Device
+from forms import LoginForm
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home_page():
-    login_url = users.create_login_url(url_for('web_app.inventory_page'))
-    return render_template('home_page.html', login_url=login_url)
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        logging.info(form.email.data)
+        logging.info(form.password.data)
+        return redirect(url_for('web_app.home_page'))
+
+    return render_template('home_page.html', form=form)
 
 
 @app.route('users/')
