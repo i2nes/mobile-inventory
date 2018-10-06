@@ -14,15 +14,12 @@ def home_page():
     form = LoginForm()
 
     if form.validate_on_submit():
-        logging.info(form.email.data)
-        logging.info(form.password.data)
         return redirect(url_for('web_app.home_page'))
 
-    return render_template('home_page.html', form=form)
+    return render_template('home_page.html', form=form, )
 
 
 @app.route('users/')
-@login_required
 def users_page():
     users_ndb = User().query().fetch()
     return render_template(
@@ -33,7 +30,6 @@ def users_page():
 
 
 @app.route('inventory/')
-@login_required
 def inventory_page():
     devices_ndb = Device().query().fetch()
     return render_template(
@@ -44,7 +40,6 @@ def inventory_page():
 
 
 @app.route('users/<user_id>')
-@login_required
 def user_edit_page(user_id):
     user = User.get_by_id(int(user_id))
     return user.email
