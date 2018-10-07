@@ -12,18 +12,28 @@
                             <th>Inventory Id</th>
                             <th>Manufacturer</th>
                             <th>Model</th>
-                            <th>Status</th>
+                            <th>OS</th>
+                            <th>Availability</th>
                             <th>User</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for user in users %}
+                        {% for device in devices %}
                         <tr>
-                            <td>{{user.name}}</td>
-                            <td>{{user.get_id()}}</td>
-                            <td>{{user.get_id()}}</td>
-                            <td>{{user.get_id()}}</td>
-                            <td>{{user.get_id()}}</td>
+                            <td>{{device.inventory_id}}</td>
+                            <td>{{device.manufacturer}}</td>
+                            <td>{{device.model}}</td>
+                            <td>{{device.os}}</td>
+                            {% if device.availability %}
+                            <td><span class="badge badge-pill badge-success">Available</span></td>
+                            {% else %}
+                            <td><span class="badge badge-pill badge-warning">Taken</span></td>
+                            {% endif %}
+                            {% if device.user_key %}
+                            <td>{{device.user_key.id()}}</td>
+                            {% else %}
+                            <td></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>

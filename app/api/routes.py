@@ -39,11 +39,10 @@ def devices_status_api():
 def devices_alocate_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
-        user = User.get_by_id(int(request.headers['X-Api-User-Id']))
+        user = User.get_by_id(str(request.headers['X-Api-User-Id']))
         device = Device.get_by_id(request.headers['X-Api-Device-Id'])
-        if user is not None:
-            if device is None:
-                device = Device(id=request.headers['X-Api-Device-Id'])
+        if user is not None and device is not None:
+            device.availability = False
             device.user_key = user.key
             device.put()
     else:
@@ -84,14 +83,14 @@ def devices_register_api():
 def devices_free_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
-        user = User.get_by_id(int(request.headers['X-Api-User-Id']))
+        user = User.get_by_id(str(request.headers['X-Api-User-Id']))
         device = Device.get_by_id(request.headers['X-Api-Device-Id'])
         if user is not None and device is not None:
             device.user_key = None
             device.put()
         else:
             logging.info("Unexpected user or device")
-            logging.info(int(request.headers['X-Api-User-Id']))
+            logging.info(request.headers['X-Api-User-Id'])
             logging.info(request.headers['X-Api-Device-Id'])
     else:
         logging.info("Missing parameters")

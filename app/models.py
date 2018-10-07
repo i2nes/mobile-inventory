@@ -44,6 +44,7 @@ class Device(ndb.Model):
     manufacturer = ndb.StringProperty()
     model = ndb.StringProperty()
     os = ndb.StringProperty()
+    availability = ndb.BooleanProperty(default=True)
     user_key = ndb.KeyProperty(kind=User)
     created = ndb.DateTimeProperty(auto_now_add=True)
     updated = ndb.DateTimeProperty(auto_now=True)
