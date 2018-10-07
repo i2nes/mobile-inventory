@@ -61,7 +61,10 @@ def create_user_page():
             user.put()
             return redirect(url_for('web_app.users_page'))
 
-    return render_template('create_user_page.html', form=form)
+    return render_template(
+        'create_user_page.html',
+        nav_link='create_user_page',
+        form=form)
 
 
 @app.route('inventory/')
@@ -76,14 +79,13 @@ def inventory_page():
 @app.route('users/<user_id>')
 @login_required
 def user_edit_page(user_id):
-    user = User.get_by_id(int(user_id))
-    return user.email
+    return 'future user edit page'
 
 
 @app.route('devices/<device_id>')
 @login_required
 def device_edit_page(device_id):
-    return 'device edit page'
+    return 'future device edit page'
 
 
 @app.route('logout/')
