@@ -29,6 +29,21 @@ curl -X GET \
   -H 'x-api-key: secret_api_key'
 ```
 
+### POST /api/devices/register
+```
+curl -X POST \
+  http://localhost:8080/api/devices/register \
+  -H 'content-type: application/json' \
+  -H 'x-api-device-id: D3456' \
+  -H 'x-api-key: secret_api_key' \
+  -d '{
+	"inventory_id": "MOB.001",
+	"manufacturer": "Samsung",
+	"model": "Galaxy 9",
+	"os": "Android"
+}'
+```
+
 ### POST /api/devices/alocate 
 ```
 curl -X POST \

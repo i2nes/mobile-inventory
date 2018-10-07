@@ -53,6 +53,32 @@ def devices_alocate_api():
     return jsonify(device.to_dict())
 
 
+@app.route('/devices/register', methods=['POST'])
+@api_key_required
+def devices_register_api():
+
+    if 'X-Api-Device-Id' in request.headers.keys():
+        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        if device is None:
+            request_body = request.get_json()
+            if request_body is not None:
+                device = Device(id=request.headers['X-Api-Device-Id'])
+                device.inventory_id = request_body['inventory_id'] if 'inventory_id' in request_body.keys() else None
+                device.manufacturer = request_body['manufacturer'] if 'manufacturer' in request_body.keys() else None
+                device.model = request_body['model'] if 'model' in request_body.keys() else None
+                device.os = request_body['os'] if 'os' in request_body.keys() else None
+                device.put()
+            else:
+                logging.info("Unexpected or missing body while registering a device")
+        else:
+            logging.info("Trying to create a device that already exists")
+    else:
+        logging.info("Missing header: X-Api-Device-Id")
+        logging.info(request.headers.keys())
+
+    return jsonify({}), 204
+
+
 @app.route('/devices/free', methods=['POST'])
 @api_key_required
 def devices_free_api():
