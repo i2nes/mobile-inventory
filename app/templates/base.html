@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <!-- font-awesome -->
+    <script src="{{ url_for('static', filename='js/all.js') }}"></script>
+
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree" rel="stylesheet">
+
+    <title>Mobile Inventory</title>
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
+        <a href="#" class="navbar-brand">Mobile Inventory</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a href="" class="nav-link">Inventory</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Users</a>
+                </li>
+                <li class="nav-item">
+                        <a href="" class="nav-link">Devices</a>
+                    </li>    
+            </ul>
+            <button class="btn btn-warning btn-sm my-2 my-sm-0" type="submit">Sign out</button>
+        </div>
+
+    </nav>
+    <!-- end navbar -->
+
+    {% block content %}{% endblock %}
+
+    <!-- jQuery first, then Bootstrap bundle -->
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+
+</html>

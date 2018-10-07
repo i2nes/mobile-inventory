@@ -1,13 +1,35 @@
 from google.appengine.ext import ndb
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(ndb.Model):
 
+    id = ndb.StringProperty() # email as id
     name = ndb.StringProperty()
-    email = ndb.StringProperty()
-    authorized = ndb.BooleanProperty(default=False)
+    password = ndb.StringProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
     updated = ndb.DateTimeProperty(auto_now=True)
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.key.id()
+
+    def get_key(self):
+        return self.key
+
+    def verify_password(self, password):
+        return check_password_hash(self.password, password)
 
     def to_dict(self):
         resp = {

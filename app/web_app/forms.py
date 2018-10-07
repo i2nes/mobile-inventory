@@ -4,5 +4,12 @@ from wtforms import StringField, PasswordField, validators
 
 class LoginForm(FlaskForm):
 
-    email = StringField('email', [validators.DataRequired()])
+    email = StringField('email', [validators.Email()])
     password = PasswordField('password', [validators.DataRequired()])
+
+class CreateUserForm(FlaskForm):
+
+    email = StringField('email', [validators.Email()])
+    name = StringField('name', [validators.DataRequired()])
+    password = PasswordField('Password', [validators.InputRequired(), validators.EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField('Repeat Password')

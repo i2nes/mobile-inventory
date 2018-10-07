@@ -1,7 +1,12 @@
 body{
     font-family: 'Bai Jamjuree', sans-serif;
+    padding-top: 80px;
 }
 
 .fill-screen{
     min-height: 100vh;
+}
+
+.fill-screen-80{
+    min-height: 80vh;
 }
