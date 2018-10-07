@@ -35,10 +35,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a href="" class="nav-link">Inventory</a>
+                    <a href="{{ url_for('web_app.inventory_page') }}" class="nav-link">Inventory</a>
                 </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Users</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown">Users</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{ url_for('web_app.users_page') }}">List</a>
+                        <a class="dropdown-item" href="{{ url_for('web_app.create_user_page') }}">Create</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">Devices</a>
