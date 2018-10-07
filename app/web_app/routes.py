@@ -21,6 +21,12 @@ def home_page():
         if user and user.verify_password(form.password.data):
             login_user(user)
             return redirect(url_for('web_app.users_page'))
+        elif len(User.query().fetch()) == 0:
+            # Create first user from Sign in 
+            user = User(id=form.email.data)
+            user.password = generate_password_hash(form.password.data)
+            user.put()
+            logging.info("First sign in - Create user")
         else:
             logging.info("Login failed for {}".format(form.email.data))
             return redirect(url_for('web_app.home_page'))
