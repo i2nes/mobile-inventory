@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(ndb.Model):
 
-    id = ndb.StringProperty() # email as id
     name = ndb.StringProperty()
     password = ndb.StringProperty()
     created = ndb.DateTimeProperty(auto_now_add=True)
