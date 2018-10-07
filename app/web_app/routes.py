@@ -20,7 +20,7 @@ def home_page():
         user = User.get_by_id(form.email.data)
         if user and user.verify_password(form.password.data):
             login_user(user)
-            return redirect(url_for('web_app.users_page'))
+            return redirect(url_for('web_app.inventory_page'))
         elif len(User.query().fetch()) == 0:
             # Create first user from Sign in 
             user = User(id=form.email.data)
