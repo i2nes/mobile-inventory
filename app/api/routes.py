@@ -87,6 +87,7 @@ def devices_free_api():
         device = Device.get_by_id(request.headers['X-Api-Device-Id'])
         if user is not None and device is not None:
             device.user_key = None
+            device.availability = True
             device.put()
         else:
             logging.info("Unexpected user or device")
