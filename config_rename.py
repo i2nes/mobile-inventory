@@ -1,7 +1,7 @@
 # Flask App Configurations
+# This is an example config file. Create a config.py with your own secrets.
 import os
 from socket import gethostname
-from google.appengine.api import users
 
 
 config = {
