@@ -20,7 +20,7 @@
                     <tbody>
                         {% for device in devices %}
                         <tr>
-                            <td>{{device.inventory_id}}</td>
+                            <td>{{device.key.id().upper()}}</td>
                             <td>{{device.manufacturer}}</td>
                             <td>{{device.model}}</td>
                             <td>{{device.os}}</td>

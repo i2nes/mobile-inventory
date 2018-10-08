@@ -25,7 +25,7 @@ def devices_api():
 def devices_status_api():
 
     if 'X-Api-Device-Id' in request.headers.keys():
-        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        device = Device.get_by_id(str(request.headers['X-Api-Device-Id'].lower()))
         if device is not None:
             return jsonify(device.to_dict())
         else:
@@ -39,8 +39,8 @@ def devices_status_api():
 def devices_alocate_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
-        user = User.get_by_id(str(request.headers['X-Api-User-Id']))
-        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
+        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
         if user is not None and device is not None:
             device.availability = False
             device.user_key = user.key
@@ -57,12 +57,11 @@ def devices_alocate_api():
 def devices_register_api():
 
     if 'X-Api-Device-Id' in request.headers.keys():
-        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
         if device is None:
             request_body = request.get_json()
             if request_body is not None:
-                device = Device(id=request.headers['X-Api-Device-Id'])
-                device.inventory_id = request_body['inventory_id'] if 'inventory_id' in request_body.keys() else None
+                device = Device(id=str(request.headers['X-Api-Device-Id']).lower())
                 device.manufacturer = request_body['manufacturer'] if 'manufacturer' in request_body.keys() else None
                 device.model = request_body['model'] if 'model' in request_body.keys() else None
                 device.os = request_body['os'] if 'os' in request_body.keys() else None
@@ -83,8 +82,8 @@ def devices_register_api():
 def devices_free_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
-        user = User.get_by_id(str(request.headers['X-Api-User-Id']))
-        device = Device.get_by_id(request.headers['X-Api-Device-Id'])
+        user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
+        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
         if user is not None and device is not None:
             device.user_key = None
             device.availability = True

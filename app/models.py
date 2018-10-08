@@ -40,7 +40,6 @@ class User(ndb.Model):
 
 class Device(ndb.Model):
 
-    inventory_id = ndb.StringProperty()
     manufacturer = ndb.StringProperty()
     model = ndb.StringProperty()
     os = ndb.StringProperty()
