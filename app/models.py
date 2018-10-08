@@ -55,3 +55,11 @@ class Device(ndb.Model):
             'device_id': self.key.id(),
         }
         return resp
+
+
+class DeviceTransaction(ndb.Model):
+
+    device_key = ndb.KeyProperty(kind=Device)
+    user_key = ndb.KeyProperty(kind=User)
+    operation = ndb.StringProperty()
+    transaction_date = ndb.DateTimeProperty(auto_now_add=True)

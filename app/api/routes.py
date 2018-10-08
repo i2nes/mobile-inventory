@@ -2,7 +2,7 @@ import logging
 from . import app
 from flask import Flask, jsonify, json, request
 from google.appengine.api import users
-from ..models import User, Device
+from ..models import User, Device, DeviceTransaction
 from ..utils import api_key_required
 
 
@@ -44,7 +44,14 @@ def devices_alocate_api():
         if user is not None and device is not None:
             device.availability = False
             device.user_key = user.key
+            transaction = DeviceTransaction()
+            transaction.device_key = device.key
+            transaction.user_key = user.key
+            transaction.operation = 'checked out'
+
             device.put()
+            transaction.put()
+
     else:
         logging.info("Missing parameters")
         logging.info(request.headers.keys())
@@ -65,7 +72,12 @@ def devices_register_api():
                 device.manufacturer = request_body['manufacturer'] if 'manufacturer' in request_body.keys() else None
                 device.model = request_body['model'] if 'model' in request_body.keys() else None
                 device.os = request_body['os'] if 'os' in request_body.keys() else None
+                transaction = DeviceTransaction()
+                transaction.device_key = device.key
+                transaction.operation = 'registered'
+
                 device.put()
+                transaction.put()
             else:
                 logging.info("Unexpected or missing body while registering a device")
         else:
@@ -87,7 +99,14 @@ def devices_free_api():
         if user is not None and device is not None:
             device.user_key = None
             device.availability = True
+            transaction = DeviceTransaction()
+            transaction.device_key = device.key
+            transaction.user_key = user.key
+            transaction.operation = 'checked in'
+
             device.put()
+            transaction.put()
+
         else:
             logging.info("Unexpected user or device")
             logging.info(request.headers['X-Api-User-Id'])
