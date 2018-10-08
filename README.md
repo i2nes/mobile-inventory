@@ -1,8 +1,51 @@
 # mobile-inventory
-Mobile lab device inventory tracker
+Keeping track of your mobile devices
 
+## Setting up the Development Environment
 
-## APIs
+This project is built to run on [Google App Engine](http://appengine.google.com/) Standard Environment.
+
+1. Make sure you have [Python 2.7](https://www.python.org/downloads/) installed
+
+2. Install the [Google App Engine SDK](https://cloud.google.com/appengine/downloads) for Python on your computer.
+
+3. Install the gcloud Python extensions. You can check which componentes are installed with
+```
+gcloud components list
+```
+
+4. Clone this repository
+```
+git clone https://github.com/i2nes/mobile-inventory.git
+```
+
+5. Copy ```config_rename.py``` to ```config.py```. ```config.py``` is used for configurations and secret keys and is not tracked. Change the secrets to be your own.
+
+6. Install needed packages from requirements.txt (make sure your in the same directory as requirements.txt)
+```
+pip install -r requirements.txt -t lib/
+```
+
+7. Startup the app in a development server
+```
+dev_appserver.py app.yaml
+```
+
+8. You should now be able to open the application in your web browser: [http://localhost:8080](http://localhost:8080)
+
+## Deploying to Production
+
+1. Go to your [App Engine Console](https://console.cloud.google.com/appengine) and create a project.
+
+2. Deploy the app with gcloud
+```
+gcloud app deploy  --project [YOUR_PROJECT_ID] --version [VERSION]
+```
+- To specify a custom version ID, include the ```--version``` flag. Example: ```live``` for your live version. This can be omitted, but gcloud will create a new version for each deployment and you will end up having several instances running.
+- To deploy your app without automatically routing all traffic to that version, include the ```--no-promote``` flag.
+- To deploy your app to a specific GCP project, include the ```--project``` flag.
+
+## API Usage Examples
 
 ### GET /api/users
 ```
