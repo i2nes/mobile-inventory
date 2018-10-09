@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>Inventory</h1>
+                <h1>{{device.key.id().upper()}} Info</h1>
                 <table class="table table-sm">
                     <thead class="thead-dark">
                         <tr>
@@ -18,9 +18,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for device in devices %}
                         <tr>
-                            <td><a href="{{ url_for('web_app.device_page', device_id=device.key.id())}}">{{device.key.id().upper()}}</a></td>
+                            <td>{{device.key.id().upper()}}</td>
                             <td>{{device.manufacturer}}</td>
                             <td>{{device.model}}</td>
                             <td>{{device.os}}</td>
@@ -34,6 +33,28 @@
                             {% else %}
                             <td></td>
                             {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>History</h1>
+                <table class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>User</th>
+                            <th>Operation</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in device_history %}
+                        <tr>
+                            <td>{% if item.user_key %}{{item.user_key.id()}}{% endif %}</td>
+                            <td>{{item.operation.capitalize()}}</td>
+                            <td>{{item.transaction_date.strftime('%c')}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

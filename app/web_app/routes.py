@@ -2,7 +2,7 @@ import logging
 from . import app
 from google.appengine.api import users
 from flask import render_template, url_for, redirect
-from ..models import User, Device
+from ..models import User, Device, DeviceTransaction
 from forms import LoginForm, CreateUserForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
@@ -84,8 +84,18 @@ def user_edit_page(user_id):
 
 @app.route('devices/<device_id>')
 @login_required
-def device_edit_page(device_id):
-    return 'future device edit page'
+def device_page(device_id):
+    device = Device.get_by_id(str(device_id).lower())
+    if device:
+        device_history = DeviceTransaction().query(DeviceTransaction.device_key==device.key).order(-DeviceTransaction.transaction_date).fetch()
+        logging.info(device)
+        logging.info(device_history)
+        return render_template(
+            'device_page.html',
+            device=device,
+            device_history=device_history)
+    else:
+        return render_template('not_found_page.html'), 404
 
 
 @app.route('logout/')
