@@ -1,7 +1,12 @@
 import logging
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 from models import User
+
+
+# HTTP 404 Handler
+def page_not_found(e):
+  return render_template('not_found_page.html'), 404
 
 
 def create_app(config):
@@ -10,6 +15,7 @@ def create_app(config):
 
     app = Flask(__name__)
     app.config.update(config)
+    app.register_error_handler(404, page_not_found)
 
     logging.info("STARTUP: Flask app ready")
 
