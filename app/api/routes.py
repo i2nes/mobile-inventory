@@ -80,8 +80,19 @@ def devices_register_api():
                 transaction.put()
             else:
                 logging.info("Unexpected or missing body while registering a device")
+                logging.info(request_body)
+                errors = {
+                    'status': 400,
+                    'message': 'Unexpected or missing parameters'
+                }
+                return jsonify(request_body), 400
         else:
             logging.info("Trying to create a device that already exists")
+            errors = {
+                'status': 409,
+                'message': 'Inventory Id already exists'
+            }            
+            return jsonify(errors), 409
     else:
         logging.info("Missing header: X-Api-Device-Id")
         logging.info(request.headers.keys())
