@@ -41,6 +41,21 @@ def devices_alocate_api():
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
         user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
         device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
+
+        if user is None:
+            errors = {
+                'status': 400,
+                'message': "User doesn't exist"
+            }
+            return jsonify({}), 400
+
+        if device is None:
+            errors = {
+                'status': 400,
+                'message': "Device doesn't exist"
+            }
+            return jsonify({}), 400
+
         if user is not None and device is not None:
             device.availability = False
             device.user_key = user.key
@@ -51,12 +66,19 @@ def devices_alocate_api():
 
             device.put()
             transaction.put()
+        else:
+            logging.info("Unexpected error alocating device")
 
     else:
         logging.info("Missing parameters")
         logging.info(request.headers.keys())
+        errors = {
+            'status': 400,
+            'message': 'Unexpected or missing parameters'
+        }
+        return jsonify({}), 400
 
-    return jsonify(device.to_dict())
+    return jsonify(device.to_dict()), 200
 
 
 @app.route('/devices/register', methods=['POST'])
@@ -85,14 +107,10 @@ def devices_register_api():
                     'status': 400,
                     'message': 'Unexpected or missing parameters'
                 }
-                return jsonify(request_body), 400
+                return jsonify(errors), 400
         else:
-            logging.info("Trying to create a device that already exists")
-            errors = {
-                'status': 409,
-                'message': 'Inventory Id already exists'
-            }            
-            return jsonify(errors), 409
+            logging.info("Trying to registor a device that already exists: {}".format(request.headers['X-Api-Device-Id']))
+            return jsonify({}), 204
     else:
         logging.info("Missing header: X-Api-Device-Id")
         logging.info(request.headers.keys())
