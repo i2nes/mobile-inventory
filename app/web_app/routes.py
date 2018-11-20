@@ -103,3 +103,8 @@ def device_page(device_id):
 def logout():
     logout_user()
     return redirect(url_for('web_app.home_page'))
+
+
+@app.route('resetpassword/')
+def reset_password_page():
+    return render_template('reset_password_page.html')
