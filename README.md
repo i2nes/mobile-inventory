@@ -47,7 +47,7 @@ gcloud app deploy  --project [YOUR_PROJECT_ID] --version [VERSION]
 
 3. The index.yaml file has to be deployed explicitly
 ```
-gcloud app deploy index.yaml --project lab-device-inventory --version live
+gcloud app deploy index.yaml --project [YOUR_PROJECT_ID] --version [VERSION]
 ```
 
 ## API Usage Examples
