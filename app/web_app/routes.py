@@ -2,7 +2,7 @@ import logging
 from . import app
 from google.appengine.api import users
 from flask import render_template, url_for, redirect
-from ..models import User, Device, DeviceTransaction
+from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email
 from forms import LoginForm, CreateUserForm, ResetPasswordForm
 from werkzeug.security import generate_password_hash
@@ -127,6 +127,12 @@ def reset_password_page():
         return render_template('email_sent_page.html')
 
     return render_template('reset_password_page.html', form=form)
+
+
+@app.route('resetpassword/<urlsafe_string>', methods=['GET', 'POST'])
+def reset_password_link_page(urlsafe_string):
+
+    return "Work in progress"
 
 
 @app.route('emailsent/')

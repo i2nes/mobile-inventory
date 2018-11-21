@@ -3,7 +3,7 @@ from google.appengine.api import users
 from google.appengine.api import mail
 from functools import wraps
 from flask import redirect, url_for, request
-from .models import User
+from .models import User, TemporaryUrl
 from config import API_KEY, APP_NAME, EMAIL_WHITELIST
 
 
@@ -30,9 +30,12 @@ def reset_password_email(to):
         logging.info('Attempt to send email to unauthorized domain')
         return
 
+    temporay_url = TemporaryUrl()
+    temporay_url.put()
+
     sender = 'lxinventory@{}.appspotmail.com'.format(APP_NAME)
-    subject = "test"
-    body = "test"
+    subject = "Reset Email Link"
+    body = "Reset password link: https://lab-device-inventory.appspot.com/resetpassword/{}".format(temporay_url.key.urlsafe())
 
     try:
         mail.send_mail(sender=sender, to=to, subject=subject, body=body)

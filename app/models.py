@@ -63,3 +63,10 @@ class DeviceTransaction(ndb.Model):
     user_key = ndb.KeyProperty(kind=User)
     operation = ndb.StringProperty()
     transaction_date = ndb.DateTimeProperty(auto_now_add=True)
+
+
+class TemporaryUrl(ndb.Model):
+
+    user_key = ndb.KeyProperty(kind=User)
+    created = ndb.DateTimeProperty(auto_now_add=True)
+    
