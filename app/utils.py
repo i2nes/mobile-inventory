@@ -35,7 +35,7 @@ def reset_password_email(to):
 
     sender = 'lxinventory@{}.appspotmail.com'.format(APP_NAME)
     subject = "Reset Email Link"
-    body = "Reset password link: https://lab-device-inventory.appspot.com/resetpassword/{}".format(temporay_url.key.urlsafe())
+    body = "Reset password link: https://{}.appspot.com/resetpassword/{}".format(APP_NAME, temporay_url.key.urlsafe())
 
     try:
         mail.send_mail(sender=sender, to=to, subject=subject, body=body)
