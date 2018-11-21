@@ -12,3 +12,5 @@ config = {
 API_KEY = 'secret_api_key'
 
 APP_NAME = 'my_app_name'
+
+EMAIL_WHITELIST = ['gmail.com']

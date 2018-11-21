@@ -4,7 +4,7 @@ from google.appengine.api import users
 from flask import render_template, url_for, redirect
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email
-from forms import LoginForm, CreateUserForm, ResetPasswordForm
+from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -89,8 +89,6 @@ def device_page(device_id):
     device = Device.get_by_id(str(device_id).lower())
     if device:
         device_history = DeviceTransaction().query(DeviceTransaction.device_key==device.key).order(-DeviceTransaction.transaction_date).fetch()
-        logging.info(device)
-        logging.info(device_history)
         return render_template(
             'device_page.html',
             device=device,
@@ -112,7 +110,7 @@ def reset_password_page():
     if current_user.is_authenticated:
         return redirect(url_for('web_app.inventory_page'))
     
-    form = ResetPasswordForm()
+    form = ResetPasswordLinkForm()
 
     if form.validate_on_submit():
 
@@ -132,7 +130,31 @@ def reset_password_page():
 @app.route('resetpassword/<urlsafe_string>', methods=['GET', 'POST'])
 def reset_password_link_page(urlsafe_string):
 
-    return "Work in progress"
+    try:
+        temp_url = TemporaryUrl.get_by_id(int(urlsafe_string))
+    except Exception as e:
+        logging.info(e)
+        return render_template('not_found_page.html'), 404
+
+    if not temp_url.isActive():
+        logging.info('password reset link expired')
+        return render_template('not_found_page.html'), 404
+
+    if not temp_url.user_key:
+        logging.info('Reset link with no user key')
+        return render_template('not_found_page.html'), 404
+
+    form = ResetPasswordForm()
+
+    if form.validate_on_submit():
+        user = temp_url.user_key.get()
+        user.password = generate_password_hash(form.password.data)
+        user.put()
+        temp_url.isValid = False
+        temp_url.put()
+        return redirect(url_for('web_app.home_page'))
+
+    return render_template('reset_password_link_page.html', form=form, urlsafe_string=urlsafe_string)
 
 
 @app.route('emailsent/')
