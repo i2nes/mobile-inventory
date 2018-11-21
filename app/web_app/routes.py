@@ -2,8 +2,9 @@ import logging
 from . import app
 from google.appengine.api import users
 from flask import render_template, url_for, redirect
-from ..models import User, Device, DeviceTransaction
-from forms import LoginForm, CreateUserForm
+from ..models import User, Device, DeviceTransaction, TemporaryUrl
+from ..utils import reset_password_email
+from forms import LoginForm, CreateUserForm, ResetPasswordForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -103,3 +104,37 @@ def device_page(device_id):
 def logout():
     logout_user()
     return redirect(url_for('web_app.home_page'))
+
+
+@app.route('resetpassword/', methods=['GET', 'POST'])
+def reset_password_page():
+
+    if current_user.is_authenticated:
+        return redirect(url_for('web_app.inventory_page'))
+    
+    form = ResetPasswordForm()
+
+    if form.validate_on_submit():
+
+        reset_email = form.email.data
+        user = User.get_by_id(reset_email)
+
+        if user:
+            reset_password_email(reset_email)
+        else:
+            logging.info('Reset password attempt with user: {}'.format(reset_email))
+
+        return render_template('email_sent_page.html')
+
+    return render_template('reset_password_page.html', form=form)
+
+
+@app.route('resetpassword/<urlsafe_string>', methods=['GET', 'POST'])
+def reset_password_link_page(urlsafe_string):
+
+    return "Work in progress"
+
+
+@app.route('emailsent/')
+def email_sent_page():
+    return render_template('email_sent_page.html')
