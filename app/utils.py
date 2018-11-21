@@ -30,16 +30,23 @@ def reset_password_email(to):
         logging.info('Attempt to send email to unauthorized domain')
         return
 
+    user = User.get_by_id(to)
+    if not user:
+        logging.info('Attempt to send email to unauthorized user')
+        return
+
     temporay_url = TemporaryUrl()
+    temporay_url.user_key = user.key
     temporay_url.put()
 
     sender = 'lxinventory@{}.appspotmail.com'.format(APP_NAME)
-    subject = "Reset Email Link"
-    body = "Reset password link: https://{}.appspot.com/resetpassword/{}".format(APP_NAME, temporay_url.key.urlsafe())
+    subject = "Reset Password Link"
+    body = "Temporary password reset link: {}".format(temporay_url.url())
 
     try:
         mail.send_mail(sender=sender, to=to, subject=subject, body=body)
     except Exception as e:
-        logging.info(e.code, e.description)
+        logging.info("Unable to send email")
+        logging.info(e)
     
     return

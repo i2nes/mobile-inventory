@@ -16,6 +16,12 @@ class CreateUserForm(FlaskForm):
     confirm_password = PasswordField('Repeat Password')
 
 
-class ResetPasswordForm(FlaskForm):
+class ResetPasswordLinkForm(FlaskForm):
 
     email = StringField('email', [validators.Email()])
+
+
+class ResetPasswordForm(FlaskForm):
+
+    password = PasswordField('Password', [validators.InputRequired(), validators.EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField('Repeat Password')

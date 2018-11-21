@@ -45,6 +45,11 @@ gcloud app deploy  --project [YOUR_PROJECT_ID] --version [VERSION]
 - To deploy your app without automatically routing all traffic to that version, include the ```--no-promote``` flag.
 - To deploy your app to a specific GCP project, include the ```--project``` flag.
 
+3. The index.yaml file has to be deployed explicitly
+```
+gcloud app deploy index.yaml --project lab-device-inventory --version live
+```
+
 ## API Usage Examples
 
 ### GET /api/users

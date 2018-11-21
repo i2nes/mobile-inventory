@@ -1,5 +1,7 @@
 from google.appengine.ext import ndb
 from werkzeug.security import generate_password_hash, check_password_hash
+from config import APP_NAME
+from datetime import datetime
 
 
 class User(ndb.Model):
@@ -69,4 +71,11 @@ class TemporaryUrl(ndb.Model):
 
     user_key = ndb.KeyProperty(kind=User)
     created = ndb.DateTimeProperty(auto_now_add=True)
+    isValid = ndb.BooleanProperty(default=True)
     
+    def url(self):
+        return "https://{}.appspot.com/resetpassword/{}".format(APP_NAME, str(self.key.id()))
+    
+    def isActive(self):
+        delta = datetime.now() - self.created
+        return self.isValid and int(delta.total_seconds()) < 3600 # Link older than 60 minutes
