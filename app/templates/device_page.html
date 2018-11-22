@@ -15,6 +15,7 @@
                             <th>OS</th>
                             <th>Availability</th>
                             <th>User</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,31 @@
                             {% else %}
                             <td></td>
                             {% endif %}
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                                
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                Delete device and associated transactions?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <form method="POST" action="{{ url_for('web_app.delete_device_handler', device_id=device.key.id()) }}">
+                                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
                         </tr>
                     </tbody>
                 </table>

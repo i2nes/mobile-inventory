@@ -1,6 +1,6 @@
 import logging
 from . import app
-from google.appengine.api import users
+from google.appengine.ext import ndb
 from flask import render_template, url_for, redirect
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email
@@ -160,3 +160,29 @@ def reset_password_link_page(urlsafe_string):
 @app.route('emailsent/')
 def email_sent_page():
     return render_template('email_sent_page.html')
+
+
+@app.route('devices/<device_id>/delete', methods=['POST'])
+def delete_device_handler(device_id):
+
+    logging.info("Deleting device {}".format(device_id))
+
+    try:
+        # try getting device_id from the datastore
+        device = Device.get_by_id(str(device_id).lower())
+    except Exception as e:
+        logging.info("Error retrieving entity for deletion: Device {}".format(device_id))
+        logging.info(e)
+        # return a 404 in case of failure
+        return render_template('not_found_page.html'), 404
+
+    # If device exists, delete any associated transactions
+    ndb.delete_multi(DeviceTransaction().query(DeviceTransaction.device_key==device.key).fetch(keys_only=True))
+
+    # and finally, delete the device
+    device.key.delete()
+
+    logging.info("Device deleted")
+
+    # Back to inventory page
+    return redirect(url_for('web_app.inventory_page'))
