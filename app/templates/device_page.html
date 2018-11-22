@@ -15,6 +15,7 @@
                             <th>OS</th>
                             <th>Availability</th>
                             <th>User</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,6 +34,10 @@
                             {% else %}
                             <td></td>
                             {% endif %}
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
+                                <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
