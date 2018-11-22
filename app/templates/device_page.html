@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                <form method="POST" action="#">
+                                                <form method="POST" action="{{ url_for('web_app.delete_device_handler', device_id=device.key.id()) }}">
                                                     <button type="submit" class="btn btn-primary">Confirm</button>
                                                 </form>
                                             </div>

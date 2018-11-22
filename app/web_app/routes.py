@@ -160,3 +160,11 @@ def reset_password_link_page(urlsafe_string):
 @app.route('emailsent/')
 def email_sent_page():
     return render_template('email_sent_page.html')
+
+
+@app.route('devices/<device_id>/delete', methods=['POST'])
+def delete_device_handler(device_id):
+
+    logging.info("Deleting device {}".format(device_id))
+
+    return redirect(url_for('web_app.inventory_page'))
