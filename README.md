@@ -87,7 +87,7 @@ curl -X POST \
   -d '{
 	"manufacturer": "Samsung",
 	"model": "Galaxy 9",
-	"os": "Android"
+	"os": "Android - 9"
 }'
 ```
 
@@ -98,7 +98,12 @@ curl -X POST \
   -H 'content-type: application/json' \
   -H 'x-api-device-id: MOB.001' \
   -H 'x-api-key: secret_api_key' \
-  -H 'x-api-user-id: john.doe@somecompany.com'
+  -H 'x-api-user-id: john.doe@somecompany.com' \
+  -d '{
+	"manufacturer": "Apple",
+	"model": "iPhone 8",
+	"os": "iOS - 12.2"
+}'
 ```
 ### POST /api/devices/free
 ```

@@ -64,6 +64,13 @@ def devices_alocate_api():
             transaction.user_key = user.key
             transaction.operation = 'checked out'
 
+            # Update device info when it's included in the request body
+            request_body = request.get_json()
+            if request_body is not None:
+                device.manufacturer = request_body['manufacturer'] if 'manufacturer' in request_body.keys() else device.manufacturer
+                device.model = request_body['model'] if 'model' in request_body.keys() else device.model
+                device.os = request_body['os'] if 'os' in request_body.keys() else device.os
+
             device.put()
             transaction.put()
         else:
