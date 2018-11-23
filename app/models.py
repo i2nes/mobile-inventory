@@ -8,6 +8,7 @@ class User(ndb.Model):
 
     name = ndb.StringProperty()
     password = ndb.StringProperty()
+    isAdmin = ndb.BooleanProperty(default=False)
     created = ndb.DateTimeProperty(auto_now_add=True)
     updated = ndb.DateTimeProperty(auto_now=True)
 
@@ -22,6 +23,9 @@ class User(ndb.Model):
     @property
     def is_anonymous(self):
         return False
+    
+    def is_admin(self):
+        return self.isAdmin
 
     def get_id(self):
         return self.key.id()

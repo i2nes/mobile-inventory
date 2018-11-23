@@ -17,9 +17,13 @@
                     <tbody>
                         {% for user in users %}
                         <tr>
-                            <td>{{user.name}}</td>
+                            <td>{{user.name}} {% if user.is_admin() %}<span class="badge badge-pill badge-info">admin</span>{% endif %}</td>
                             <td>{{user.get_id()}}</td>
-                            <td><a class="btn btn-sm btn-primary" href="#" role="button">Edit</a></td>
+                            <td>
+                                {% if current_user == user or current_user.is_admin() %}
+                                <a class="btn btn-sm btn-primary" href="#" role="button">Edit</a>
+                                {% endif %}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
