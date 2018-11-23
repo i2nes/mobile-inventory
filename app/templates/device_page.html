@@ -15,7 +15,9 @@
                             <th>OS</th>
                             <th>Availability</th>
                             <th>User</th>
+                            {% if current_user.is_admin() %}
                             <th>Actions</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +36,7 @@
                             {% else %}
                             <td></td>
                             {% endif %}
+                            {% if current_user.is_admin() %}
                             <td>
                                 <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
                                 <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#deleteModal">Delete</a>
@@ -59,6 +62,7 @@
                                 </div>
 
                             </td>
+                            {% endif %}
                         </tr>
                     </tbody>
                 </table>

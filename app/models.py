@@ -23,6 +23,9 @@ class User(ndb.Model):
     @property
     def is_anonymous(self):
         return False
+    
+    def is_admin(self):
+        return self.isAdmin
 
     def get_id(self):
         return self.key.id()

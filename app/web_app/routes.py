@@ -49,6 +49,9 @@ def users_page():
 @login_required
 def create_user_page():
 
+    if not current_user.is_admin():
+        return render_template('not_found_page.html'), 404
+
     form = CreateUserForm()
 
     if form.validate_on_submit():
@@ -164,6 +167,9 @@ def email_sent_page():
 
 @app.route('devices/<device_id>/delete', methods=['POST'])
 def delete_device_handler(device_id):
+
+    if not current_user.is_admin():
+        return render_template('not_found_page.html'), 404
 
     logging.info("Deleting device {}".format(device_id))
 
