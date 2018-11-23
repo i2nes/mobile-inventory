@@ -44,17 +44,17 @@ def devices_alocate_api():
 
         if user is None:
             errors = {
-                'status': 400,
+                'status': 404,
                 'message': "User doesn't exist"
             }
-            return jsonify({}), 400
+            return jsonify(errors), 404
 
         if device is None:
             errors = {
-                'status': 400,
+                'status': 410,
                 'message': "Device doesn't exist"
             }
-            return jsonify({}), 400
+            return jsonify(errors), 410
 
         if user is not None and device is not None:
             device.availability = False
