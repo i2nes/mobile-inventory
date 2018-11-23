@@ -1,7 +1,7 @@
 import logging
 from . import app
 from google.appengine.ext import ndb
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, flash
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email
 from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm
@@ -30,6 +30,7 @@ def home_page():
             logging.info("First sign in - Create user")
         else:
             logging.info("Login failed for {}".format(form.email.data))
+            flash("Invalid login")
             return redirect(url_for('web_app.home_page'))
 
     return render_template('home_page.html', form=form, )
