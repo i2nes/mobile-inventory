@@ -132,23 +132,38 @@ def devices_free_api():
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
         user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
         device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
-        if user is not None and device is not None:
-            device.user_key = None
-            device.availability = True
-            transaction = DeviceTransaction()
-            transaction.device_key = device.key
-            transaction.user_key = user.key
-            transaction.operation = 'checked in'
 
-            device.put()
-            transaction.put()
+        if device is None:
+            errors = {
+                'status': 410,
+                'message': "Device doesn't exist"
+            }
+            return jsonify(errors), 410
+            
+        if user is None:
+            errors = {
+                'status': 404,
+                'message': "User doesn't exist"
+            }
+            return jsonify(errors), 404
 
-        else:
-            logging.info("Unexpected user or device")
-            logging.info(request.headers['X-Api-User-Id'])
-            logging.info(request.headers['X-Api-Device-Id'])
+        device.user_key = None
+        device.availability = True
+        transaction = DeviceTransaction()
+        transaction.device_key = device.key
+        transaction.user_key = user.key
+        transaction.operation = 'checked in'
+
+        device.put()
+        transaction.put()
+
     else:
         logging.info("Missing parameters")
         logging.info(request.headers.keys())
+        errors = {
+            'status': 400,
+            'message': 'Missing parameters'
+        }
+        return jsonify(errors), 400
 
-    return jsonify(device.to_dict())
+    return jsonify(device.to_dict()), 200
