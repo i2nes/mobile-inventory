@@ -193,3 +193,8 @@ def delete_device_handler(device_id):
 
     # Back to inventory page
     return redirect(url_for('web_app.inventory_page'))
+
+
+@app.route('devices/<device_id>/edit')
+def edit_device_page(device_id):
+    return render_template('edit_device_page.html')
