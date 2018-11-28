@@ -55,6 +55,9 @@ class Device(ndb.Model):
     created = ndb.DateTimeProperty(auto_now_add=True)
     updated = ndb.DateTimeProperty(auto_now=True)
 
+    def isLockedModelName(self):
+        return self.lockModelName
+
     def to_dict(self):
         resp = {
             'user_id': self.user_key.id() if self.user_key is not None else None,
