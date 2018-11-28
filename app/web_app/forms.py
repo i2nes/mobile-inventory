@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, validators
+from wtforms import StringField, PasswordField, BooleanField, validators
 
 
 class LoginForm(FlaskForm):
@@ -25,3 +25,10 @@ class ResetPasswordForm(FlaskForm):
 
     password = PasswordField('Password', [validators.InputRequired(), validators.EqualTo('confirm_password', message='Passwords must match')])
     confirm_password = PasswordField('Repeat Password')
+
+
+class EditDeviceForm(FlaskForm):
+
+    manufacturer = StringField('Manufacturer', [validators.DataRequired()])
+    model = StringField('Model', [validators.DataRequired()])
+    lockModel = BooleanField()
