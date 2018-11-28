@@ -38,7 +38,7 @@
                             {% endif %}
                             {% if current_user.is_admin() %}
                             <td>
-                                <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
+                                <a href="{{ url_for('web_app.edit_device_page', device_id=device.key.id()) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
                                 <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#deleteModal">Delete</a>
                                 
                                 <!-- Delete Modal -->

@@ -4,7 +4,7 @@ from google.appengine.ext import ndb
 from flask import render_template, url_for, redirect, flash
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email
-from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm
+from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm, EditDeviceForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -195,6 +195,23 @@ def delete_device_handler(device_id):
     return redirect(url_for('web_app.inventory_page'))
 
 
-@app.route('devices/<device_id>/edit')
+@app.route('devices/<device_id>/edit', methods=['GET', 'POST'])
 def edit_device_page(device_id):
-    return render_template('edit_device_page.html')
+
+
+    device = Device.get_by_id(str(device_id).lower())
+
+    if not device:
+        return render_template('not_found_page.html'), 404
+    
+    form = EditDeviceForm()
+    checked_status = "checked" if device.lockModelName else ""
+
+    if form.validate_on_submit():
+        device.manufacturer = form.manufacturer.data
+        device.model = form.model.data
+        device.lockModelName = form.lockModel.data
+        device.put()
+        return redirect(url_for('web_app.inventory_page'))
+
+    return render_template('edit_device_page.html', form=form, device=device, checked_status=checked_status)
