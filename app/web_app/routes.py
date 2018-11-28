@@ -198,6 +198,8 @@ def delete_device_handler(device_id):
 @app.route('devices/<device_id>/edit', methods=['GET', 'POST'])
 def edit_device_page(device_id):
 
+    if not current_user.is_admin():
+        return render_template('not_found_page.html'), 404
 
     device = Device.get_by_id(str(device_id).lower())
 
