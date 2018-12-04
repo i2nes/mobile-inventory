@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
+{% block styles %}<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">{% endblock %}
+
 {% block content %}
 <section>
     <div class="container">
         <div class="row">
             <div class="col">
                 <h1>Inventory</h1>
-                <table class="table table-sm">
+                <table id="inventory" class="table table-sm">
                     <thead class="thead-dark">
                         <tr>
                             <th>Inventory ({{ device_count }})</th>
@@ -42,4 +44,13 @@
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#inventory').DataTable();
+} );
+</script>
 {% endblock %}

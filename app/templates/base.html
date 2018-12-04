@@ -18,6 +18,9 @@
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree" rel="stylesheet">
 
+    <!-- Template Styles -->
+    {% block styles %}{% endblock %}
+
     <title>Mobile Inventory</title>
 </head>
 
@@ -58,6 +61,10 @@
     <!-- jQuery first, then Bootstrap bundle -->
     <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    {% block javascript %}{% endblock %}
+
 </body>
 
 </html>
