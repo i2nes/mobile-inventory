@@ -5,6 +5,7 @@ from functools import wraps
 from flask import redirect, url_for, request
 from .models import User, TemporaryUrl
 from config import API_KEY, APP_NAME, EMAIL_WHITELIST
+import re
 
 
 def api_key_required(f):
@@ -50,3 +51,8 @@ def reset_password_email(to):
         logging.info(e)
     
     return
+
+
+def safe_id(id):
+    
+    return re.sub('[^0-9a-zA-Z.]+', '', id)

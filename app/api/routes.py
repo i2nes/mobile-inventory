@@ -3,7 +3,7 @@ from . import app
 from flask import Flask, jsonify, json, request
 from google.appengine.api import users
 from ..models import User, Device, DeviceTransaction
-from ..utils import api_key_required
+from ..utils import api_key_required, safe_id
 
 
 @app.route('/users', methods=['GET'])
@@ -40,7 +40,7 @@ def devices_alocate_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
         user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
-        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
+        device = Device.get_by_id( safe_id(str(request.headers['X-Api-Device-Id']).lower()) )
 
         if user is None:
             errors = {
@@ -94,11 +94,11 @@ def devices_alocate_api():
 def devices_register_api():
 
     if 'X-Api-Device-Id' in request.headers.keys():
-        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
+        device = Device.get_by_id( safe_id(str(request.headers['X-Api-Device-Id']).lower()) )
         if device is None:
             request_body = request.get_json()
             if request_body is not None:
-                device = Device(id=str(request.headers['X-Api-Device-Id']).lower())
+                device = Device( id=safe_id(str(request.headers['X-Api-Device-Id']).lower()) )
                 device.manufacturer = request_body['manufacturer'] if 'manufacturer' in request_body.keys() else None
                 device.model = request_body['model'] if 'model' in request_body.keys() else None
                 device.os = request_body['os'] if 'os' in request_body.keys() else None
@@ -132,7 +132,7 @@ def devices_free_api():
 
     if 'X-Api-Device-Id' in request.headers.keys() and 'X-Api-User-Id' in request.headers.keys():
         user = User.get_by_id(str(request.headers['X-Api-User-Id']).lower())
-        device = Device.get_by_id(str(request.headers['X-Api-Device-Id']).lower())
+        device = Device.get_by_id( safe_id(str(request.headers['X-Api-Device-Id']).lower()) )
 
         if device is None:
             errors = {
