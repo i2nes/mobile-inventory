@@ -11,7 +11,7 @@
                 <table id="inventory" class="table table-sm">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Inventory ({{ device_count }})</th>
+                            <th>Inventory</th>
                             <th>Manufacturer</th>
                             <th>Model</th>
                             <th>OS</th>
@@ -50,7 +50,9 @@
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#inventory').DataTable();
+    $('#inventory').DataTable({
+        paging: false
+    });
 } );
 </script>
 {% endblock %}
