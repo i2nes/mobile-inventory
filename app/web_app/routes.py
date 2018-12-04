@@ -78,7 +78,8 @@ def inventory_page():
     return render_template(
         'inventory_page.html',
         nav_link='inventory_page',
-        devices=devices_ndb)
+        devices=devices_ndb,
+        device_count=len(devices_ndb))
 
 
 @app.route('users/<user_id>')
