@@ -76,6 +76,7 @@ def create_user_page():
 
 
 @app.route('inventory/')
+@login_required
 def inventory_page():
     devices_ndb = Device().query().fetch()
     return render_template(
@@ -171,6 +172,7 @@ def email_sent_page():
 
 
 @app.route('devices/<device_id>/delete', methods=['POST'])
+@login_required
 def delete_device_handler(device_id):
 
     if not current_user.is_admin():
@@ -200,6 +202,7 @@ def delete_device_handler(device_id):
 
 
 @app.route('devices/<device_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_device_page(device_id):
 
     if not current_user.is_admin():
