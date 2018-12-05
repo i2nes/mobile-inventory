@@ -31,7 +31,7 @@
                         {% endif %}
 
                         <input type="password" class="form-control mb-3" placeholder="Password" id="{{ form.password.name }}"
-                            name="{{ form.password.name }}">
+                            name="{{ form.password.name }}" value="{{ random_pass }}">
                         {% if form.errors.password is defined %}
                         {% for e in form.errors.password %}
                         <p class="text-danger">{{ e }}</p>
@@ -39,7 +39,7 @@
                         {% endif %}
 
                         <input type="password" class="form-control mb-3" placeholder="Confirm Password" id="{{ form.confirm_password.name }}"
-                            name="{{ form.confirm_password.name }}">
+                            name="{{ form.confirm_password.name }}" value="{{ random_pass }}">
                         {% if form.errors.confirm_password is defined %}
                         {% for e in form.errors.confirm_password %}
                         <p class="text-danger">{{ e }}</p>

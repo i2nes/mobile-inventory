@@ -6,6 +6,7 @@ from flask import redirect, url_for, request
 from .models import User, TemporaryUrl
 from config import API_KEY, APP_NAME, EMAIL_WHITELIST
 import re
+import random
 
 
 def api_key_required(f):
@@ -56,3 +57,9 @@ def reset_password_email(to):
 def safe_id(id):
     
     return re.sub('[^0-9a-zA-Z.]+', '', id)
+
+
+def random_password():
+    chars = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()?"
+    pass_len = 16
+    return "".join(random.sample(chars,pass_len))

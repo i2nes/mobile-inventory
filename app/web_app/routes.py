@@ -3,7 +3,7 @@ from . import app
 from google.appengine.ext import ndb
 from flask import render_template, url_for, redirect, flash
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
-from ..utils import reset_password_email
+from ..utils import reset_password_email, random_password
 from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm, EditDeviceForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
@@ -66,10 +66,13 @@ def create_user_page():
             user.put()
             return redirect(url_for('web_app.users_page'))
 
+    random_pass = random_password()
+
     return render_template(
         'create_user_page.html',
         nav_link='create_user_page',
-        form=form)
+        form=form,
+        random_pass=random_pass)
 
 
 @app.route('inventory/')
