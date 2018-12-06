@@ -32,3 +32,9 @@ class EditDeviceForm(FlaskForm):
     manufacturer = StringField('Manufacturer', [validators.DataRequired()])
     model = StringField('Model', [validators.DataRequired()])
     lockModel = BooleanField()
+
+
+class EditUserForm(FlaskForm):
+
+    name = StringField('name', [validators.DataRequired()])
+    isAdmin = BooleanField()

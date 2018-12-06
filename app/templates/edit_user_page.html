@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row fill-screen-80 align-items-center text-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+                <h1>Edit User Info</h1>
+
+                <hr>
+
+                <form id="createUserForm" method="POST" action="{{ url_for('web_app.user_edit_page', user_id=user.get_id()) }}">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+
+                        <label>Name</label>
+                        <input type="name" class="form-control mb-3" placeholder="Name" id="{{ form.name.name }}" name="{{ form.name.name }}" value="{{ user.name }}">
+                        {% if form.errors.name is defined %}
+                        {% for e in form.errors.name %}
+                        <p class="text-danger">{{ e }}</p>
+                        {% endfor %}
+                        {% endif %}
+
+                        {% if current_user.is_admin() %}
+                        <div class="form-group row form-check text-center">
+                            <input class="form-check-input" type="checkbox" id="{{ form.isAdmin.name }}" name="{{ form.isAdmin.name }}" {{checked_status}}>
+                            <label class="form-check-label" for="gridCheck">
+                                Admin User
+                            </label>
+                        </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn btn-primary my-4 px-5">Save</button>
+
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}

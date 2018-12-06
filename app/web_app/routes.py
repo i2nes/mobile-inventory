@@ -4,7 +4,7 @@ from google.appengine.ext import ndb
 from flask import render_template, url_for, redirect, flash
 from ..models import User, Device, DeviceTransaction, TemporaryUrl
 from ..utils import reset_password_email, random_password
-from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm, EditDeviceForm
+from forms import LoginForm, CreateUserForm, ResetPasswordLinkForm, ResetPasswordForm, EditDeviceForm, EditUserForm
 from werkzeug.security import generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
@@ -86,10 +86,36 @@ def inventory_page():
         device_count=len(devices_ndb))
 
 
-@app.route('users/<user_id>')
+@app.route('users/<user_id>/edit', methods=['GET', 'POST'])
 @login_required
 def user_edit_page(user_id):
-    return 'future user edit page'
+
+    if not current_user.key.id() == user_id:
+        if not current_user.is_admin():
+            return render_template('not_found_page.html'), 404
+    
+    user = User.get_by_id(str(user_id).lower())
+    
+    if user:
+
+        form = EditUserForm()
+        checked_status = 'checked' if user.is_admin() else ''
+
+        if form.validate_on_submit():
+
+            user.name = form.name.data
+
+            if current_user.is_admin():
+                user.isAdmin = form.isAdmin.data
+
+            user.put()
+
+            return redirect(url_for('web_app.user_edit_page', user_id=user_id))
+
+        return render_template('edit_user_page.html', form=form, checked_status=checked_status, user=user)
+
+    else:
+        return render_template('not_found_page.html'), 404
 
 
 @app.route('devices/<device_id>')
